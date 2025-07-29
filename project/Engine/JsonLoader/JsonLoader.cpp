@@ -109,8 +109,20 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
 
         if (object["type"].get<std::string>() == "MESH" || object["type"].get<std::string>() == "CAMERA")
         {
+            // // 同じ名前なら後ろに数字を追加する
+            //if (levelData.datas.contains(object["file_name"].get<std::string>()))
+            //{
+            //    for (size_t i = 0; i < levelData.datas.size(); i++)
+            //    {
+            //        std::string num = "_0" + std::to_string(i);
+            //        if (!levelData.datas.contains(object["file_name"].get<std::string>() + num))
+            //        {
+            //            jsonData = levelData.datas[object["file_name"].get<std::string>() + num];
+            //            break;
+            //        }
+            //    }
+            //}
             // 1個分の要素の準備
-            levelData.datas[object["file_name"].get<std::string>()];
             JsonData& jsonData = levelData.datas[object["file_name"].get<std::string>()];
 
             jsonData.type = object["type"].get<std::string>(); // "type"
