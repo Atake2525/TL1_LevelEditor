@@ -3,8 +3,6 @@
 #include "externels/imgui/imgui_impl_dx12.h"
 #include "externels/imgui/imgui_impl_win32.h"
 
-#include "JsonLoader.h"
-
 void GameScene::Initialize() {
 	//BaseScene::Initialize();
 	//ModelManager::GetInstance()->LoadModel("Resources/Model/gltf/human", "walkMultiMaterial.gltf", true, true);
@@ -37,15 +35,8 @@ void GameScene::Initialize() {
 		{0.0f, 0.01f, 0.0f}
 	};
 
-	LevelData levelData = JsonLoader::GetInstance()->LoadJsonTransform("Resources/Debug/json", "PlayerStartPoint.json");
-
-	if (levelData.datas["Player"].type == "MESH")
-	{
-		pl = levelData.datas["Player"].transform;
-	}
-
 	player_ = new Player();
-	player_->Initialize(camera, input, pl);
+	player_->Initialize(camera, input, pl, true);
 
 	cameraObject = new Object3d();
 	cameraObject->Initialize();
@@ -57,10 +48,17 @@ void GameScene::Initialize() {
 	grid->SetModel("Resources/Debug", "Grid.obj");
 	grid->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
 
-	box = new Object3d();
-	box->Initialize();
-	box->SetModel("Resources/Model/gltf/human", "metallicHuman.gltf", true, true);
-	box->SetTranslate({ 0.0f, 1.0f, 0.0f });
+	human = new Object3d();
+	human->Initialize();
+	human->SetModel("Resources/Model/gltf/human", "metallicHuman.gltf", true, true);
+	human->SetTranslate({ 0.0f, 1.0f, 0.0f });
+
+	levelData = JsonLoader::GetInstance()->LoadJsonTransform("Resources/Debug/json", "PlayerStartPoint.json");
+
+	if (levelData.datas["Player"].type == "MESH")
+	{
+		human->SetTransform(levelData.datas["Player"].transform);
+	}
 
 	terrain = new Object3d();
 	terrain->Initialize();
@@ -73,6 +71,11 @@ void GameScene::Initialize() {
 		terrain->SetTransform(levelData.datas["terrain"].transform);
 	}
 
+	if (levelData.datas["Camera"].type == "CAMERA")
+	{
+		camera->SetTransform(levelData.datas["Camera"].transform);
+		camera->Update();
+	}
 
 	land = new Object3d();
 	land->Initialize();
@@ -102,7 +105,7 @@ void GameScene::Update() {
 		ImGui::DragFloat3("Scale", &cameraTransform.scale.x, 0.1f);
 		ImGui::TreePop();
 	}
-	Transform transHuman = box->GetTransform();
+	Transform transHuman = human->GetTransform();
 	if (ImGui::TreeNode("Human")) {
 		ImGui::DragFloat3("translate", &transHuman.translate.x, 0.01f);
 		ImGui::DragFloat3("rotate", &transHuman.rotate.x, 0.01f);
@@ -110,8 +113,8 @@ void GameScene::Update() {
 		ImGui::TreePop();
 	}
 	float landEnvironment = land->GetEnvironmentCoefficient();
-	float humanEnvironment = box->GetEnvironmentCoefficient();
-	bool boxMetalFlag = box->GetEnableMetallic();
+	float humanEnvironment = human->GetEnvironmentCoefficient();
+	bool boxMetalFlag = human->GetEnableMetallic();
 	bool landMetalFlag = land->GetEnableMetallic();
 	if (ImGui::TreeNode("環境マップ")) {
 		ImGui::DragFloat("land", &landEnvironment, 0.01f);
@@ -121,9 +124,9 @@ void GameScene::Update() {
 		ImGui::TreePop();
 	}
 	land->SetEnvironmentCoefficient(landEnvironment);
-	box->SetEnvironmentCoefficient(humanEnvironment);
-	box->SetTransform(transHuman);
-	box->SetEnableMetallic(boxMetalFlag);
+	human->SetEnvironmentCoefficient(humanEnvironment);
+	human->SetTransform(transHuman);
+	human->SetEnableMetallic(boxMetalFlag);
 	land->SetEnableMetallic(landMetalFlag);
 	if (ImGui::Button("デバイス更新"))
 	{
@@ -164,8 +167,14 @@ void GameScene::Update() {
 		Audio::GetInstance()->Play2D("bgm", { 0.0f, 0.0f }, false);
 	}
 
-	camera->SetTranslate(cameraTransform.translate);
-	camera->SetRotate(cameraTransform.rotate);
+	levelData = JsonLoader::GetInstance()->LoadJsonTransform("Resources/Debug/json", "PlayerStartPoint.json");
+
+	terrain->SetTransform(levelData.datas["terrain"].transform);
+	human->SetTransform(levelData.datas["Player"].transform);
+	//camera->SetTransform(levelData.datas["Camera"].transform);
+
+	//camera->SetTranslate(cameraTransform.translate);
+	//camera->SetRotate(cameraTransform.rotate);
 	//camera->SetTranslateParent(human->GetWorldMatrix());
 	camera->Update();
 
@@ -178,7 +187,7 @@ void GameScene::Update() {
 
 	grid->Update();
 
-	box->Update();
+	human->Update();
 
 	terrain->Update();
 
@@ -205,7 +214,7 @@ void GameScene::Draw() {
 
 	SkinningObject3dBase::GetInstance()->ShaderDraw();
 
-	box->Draw();
+	human->Draw();
 	player_->Draw();
 
 	WireFrameObjectBase::GetInstance()->ShaderDraw();
@@ -223,7 +232,7 @@ void GameScene::Finalize() {
 
 	delete player_;
 
-	delete box;
+	delete human;
 
 	delete cameraObject;
 

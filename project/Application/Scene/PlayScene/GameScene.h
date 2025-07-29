@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "Player.h"
 #include "SkyBox.h"
+#include "JsonLoader.h"
 
 #pragma once
 
@@ -54,7 +55,7 @@ private:
 
 	Object3d* terrain = nullptr;
 
-	Object3d* box = nullptr;
+	Object3d* human = nullptr;
 
 	Camera* camera = nullptr;
 	Object3d* cameraObject = nullptr;
@@ -79,5 +80,7 @@ private:
 	Transform transformSprite;
 
 	Player* player_ = nullptr;
+
+	LevelData levelData;
 };
 
