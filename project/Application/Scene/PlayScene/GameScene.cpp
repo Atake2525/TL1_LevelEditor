@@ -36,8 +36,16 @@ void GameScene::Initialize() {
 		{0.0f, 0.0f, 0.0f},
 		{0.0f, 0.01f, 0.0f}
 	};
+
+	LevelData levelData = JsonLoader::GetInstance()->LoadJsonTransform("Resources/Debug/json", "PlayerStartPoint.json");
+
+	if (levelData.datas["Player"].type == "MESH")
+	{
+		pl = levelData.datas["Player"].transform;
+	}
+
 	player_ = new Player();
-	player_->Initialize(camera, input, pl, true);
+	player_->Initialize(camera, input, pl);
 
 	cameraObject = new Object3d();
 	cameraObject->Initialize();
@@ -68,10 +76,6 @@ void GameScene::Initialize() {
 	//land->SetEnvironmentCoefficient(1.0f);
 
 	Audio::GetInstance()->LoadMP3("Resources/sekiranun.mp3", "bgm", 0.1f);
-
-	//LevelData levelData = JsonLoader::GetInstance()->LoadJsonTransform("Resources/Debug/json", "CubeVertex.json");
-
-
 
 	/*sprite = new Sprite();
 	sprite->Initialize("Resources/checkerBoard.png");*/

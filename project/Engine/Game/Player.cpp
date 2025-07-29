@@ -31,6 +31,7 @@ void Player::Initialize(Camera* camera, Input* input, const Transform startPoint
 	playerModel_->AddAnimation("Resources/Model/gltf/char", "walk_back.gltf", "backwalk");
 	playerModel_->AddAnimation("Resources/Model/gltf/char", "fall.gltf", "fall");
     playerModel_->SetTransform(playerTransform_);
+	playerModel_->Update();
     playerModel_->ToggleStartAnimation();
 }
 
