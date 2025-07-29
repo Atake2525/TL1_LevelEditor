@@ -59,10 +59,8 @@ void GameScene::Initialize() {
 
 	box = new Object3d();
 	box->Initialize();
-	//box->SetModel("Resources/Debug/obj", "box.obj");
 	box->SetModel("Resources/Model/gltf/human", "metallicHuman.gltf", true, true);
 	box->SetTranslate({ 0.0f, 1.0f, 0.0f });
-	//box->SetEnvironmentCoefficient(1.00f);
 
 	terrain = new Object3d();
 	terrain->Initialize();
