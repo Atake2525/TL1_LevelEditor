@@ -193,9 +193,12 @@ void GameScene::Update() {
 
 	player_->Update();
 
+	int num = 0;
 	for (Object3d* enemy : enemies)
 	{
+		enemy->SetTransform(levelData.datas["Enemy_" + std::to_string(num)].transform);
 		enemy->Update();
+		num++;
 	}
 
 
