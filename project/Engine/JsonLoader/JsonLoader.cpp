@@ -107,7 +107,7 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
         // 種別を取得
         //std::string type = object["type"].get<std::string>();
 
-        if (object["type"].get<std::string>() == "MESH")
+        if (object["type"].get<std::string>() == "MESH" || object["type"].get<std::string>() == "CAMERA")
         {
             // 1個分の要素の準備
             levelData.datas[object["file_name"].get<std::string>()];
@@ -122,10 +122,20 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
             jsonData.transform.translate.x = (float)transform["translation"][0];
             jsonData.transform.translate.y = (float)transform["translation"][2];
             jsonData.transform.translate.z = (float)transform["translation"][1];
-            // 回転角 "rotation"
-            jsonData.transform.rotate.x = -SwapRadian((float)transform["rotation"][0]);
-            jsonData.transform.rotate.y = -SwapRadian((float)transform["rotation"][2]);
-            jsonData.transform.rotate.z = -SwapRadian((float)transform["rotation"][1]);
+            if (object["type"].get<std::string>() == "MESH")
+            {
+                // 回転角 "rotation"
+                jsonData.transform.rotate.x = -SwapRadian((float)transform["rotation"][0]);
+                jsonData.transform.rotate.y = -SwapRadian((float)transform["rotation"][2]);
+                jsonData.transform.rotate.z = -SwapRadian((float)transform["rotation"][1]);
+            }
+            else if (object["type"].get<std::string>() == "CAMERA")
+            {
+                // 回転角 "rotation"
+                jsonData.transform.rotate.x = SwapRadian(90.0f) - SwapRadian((float)transform["rotation"][0]);
+                jsonData.transform.rotate.y = -SwapRadian((float)transform["rotation"][2]);
+                jsonData.transform.rotate.z = -SwapRadian((float)transform["rotation"][1]);
+            }
             // 拡大縮小 "scaling"
             jsonData.transform.scale.x = (float)transform["scaling"][0];
             jsonData.transform.scale.y = (float)transform["scaling"][1];
