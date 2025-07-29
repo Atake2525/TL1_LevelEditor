@@ -70,6 +70,12 @@ void GameScene::Initialize() {
 	terrain->SetTranslate({ 20.0f, 0.01f, 0.0f });
 	terrain->SetEnableLighting(true);
 
+	if (levelData.datas["terrain"].type == "MESH")
+	{
+		terrain->SetTransform(levelData.datas["terrain"].transform);
+	}
+
+
 	land = new Object3d();
 	land->Initialize();
 	land->SetModel("Resources/Debug/gltf", "LandPlate.gltf", true);

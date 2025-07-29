@@ -1,6 +1,7 @@
 #include "JsonLoader.h"
 #include <cassert>
 #include "Logger.h"
+#include "kMath.h"
 
 using namespace Logger;
 
@@ -119,12 +120,12 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
             nlohmann::json& transform = object["transform"];
             // 平行移動 "translation"
             jsonData.transform.translate.x = (float)transform["translation"][0];
-            jsonData.transform.translate.y = (float)transform["translation"][1];
-            jsonData.transform.translate.z = (float)transform["translation"][2];
+            jsonData.transform.translate.y = (float)transform["translation"][2];
+            jsonData.transform.translate.z = (float)transform["translation"][1];
             // 回転角 "rotation"
-            jsonData.transform.rotate.x = -(float)transform["rotation"][0];
-            jsonData.transform.rotate.y = -(float)transform["rotation"][1];
-            jsonData.transform.rotate.z = -(float)transform["rotation"][2];
+            jsonData.transform.rotate.x = -SwapRadian((float)transform["rotation"][0]);
+            jsonData.transform.rotate.y = -SwapRadian((float)transform["rotation"][2]);
+            jsonData.transform.rotate.z = -SwapRadian((float)transform["rotation"][1]);
             // 拡大縮小 "scaling"
             jsonData.transform.scale.x = (float)transform["scaling"][0];
             jsonData.transform.scale.y = (float)transform["scaling"][1];
