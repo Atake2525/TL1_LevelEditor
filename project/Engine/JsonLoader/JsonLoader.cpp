@@ -33,7 +33,7 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
     data.file_name = "null";
     data.name = "null";
     data.type = "null";
-    lvData.datas.push_back(data);
+    lvData.datas["null"] = data;
     lvData.name = "null";
 
     // 連結してファイルパスを得る
@@ -109,8 +109,8 @@ const LevelData JsonLoader::LoadJsonTransform(const std::string& directoryPath, 
         if (object["type"].get<std::string>() == "MESH")
         {
             // 1個分の要素の準備
-            levelData.datas.emplace_back(JsonData{});
-            JsonData& jsonData = levelData.datas.back();
+            levelData.datas[object["file_name"].get<std::string>()];
+            JsonData& jsonData = levelData.datas[object["file_name"].get<std::string>()];
 
             jsonData.type = object["type"].get<std::string>(); // "type"
             jsonData.name = object["name"].get<std::string>(); // "name"
