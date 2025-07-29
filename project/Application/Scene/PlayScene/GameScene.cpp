@@ -60,6 +60,17 @@ void GameScene::Initialize() {
 		human->SetTransform(levelData.datas["Player"].transform);
 	}
 
+	int num = 0;
+	for (size_t i = 0; i < 3; i++)
+	{
+		Object3d* enemy = new Object3d();
+		enemy->Initialize();
+		enemy->SetModel("Resources/Debug/obj", "enemy.obj");
+		enemy->SetTransform(levelData.datas["Enemy_" + std::to_string(num)].transform);
+		enemies.push_back(enemy);
+		num++;
+	}
+
 	terrain = new Object3d();
 	terrain->Initialize();
 	terrain->SetModel("Resources/Debug/obj", "terrain.obj");
@@ -171,11 +182,8 @@ void GameScene::Update() {
 
 	terrain->SetTransform(levelData.datas["terrain"].transform);
 	human->SetTransform(levelData.datas["Player"].transform);
-	//camera->SetTransform(levelData.datas["Camera"].transform);
+	
 
-	//camera->SetTranslate(cameraTransform.translate);
-	//camera->SetRotate(cameraTransform.rotate);
-	//camera->SetTranslateParent(human->GetWorldMatrix());
 	camera->Update();
 
 	SkyBox::GetInstance()->Update();
@@ -184,6 +192,12 @@ void GameScene::Update() {
 	cameraObject->Update();
 
 	player_->Update();
+
+	for (Object3d* enemy : enemies)
+	{
+		enemy->Update();
+	}
+
 
 	grid->Update();
 
@@ -211,11 +225,16 @@ void GameScene::Draw() {
 
 	cameraObject->Draw();
 
+	for (Object3d* enemy : enemies)
+	{
+		enemy->Draw();
+	}
+
 
 	SkinningObject3dBase::GetInstance()->ShaderDraw();
 
 	human->Draw();
-	player_->Draw();
+	//player_->Draw();
 
 	WireFrameObjectBase::GetInstance()->ShaderDraw();
 
@@ -231,6 +250,11 @@ void GameScene::Finalize() {
 	delete camera;
 
 	delete player_;
+
+	for (Object3d* enemy : enemies)
+	{
+		delete enemy;
+	}
 
 	delete human;
 

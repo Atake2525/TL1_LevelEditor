@@ -57,6 +57,8 @@ private:
 
 	Object3d* human = nullptr;
 
+	std::vector<Object3d*> enemies;
+
 	Camera* camera = nullptr;
 	Object3d* cameraObject = nullptr;
 
