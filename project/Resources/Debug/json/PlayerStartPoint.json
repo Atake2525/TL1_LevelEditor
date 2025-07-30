@@ -1,0 +1,137 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Beta_Surface",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Player"
+        },
+        {
+            "type": "MESH",
+            "name": "Plane",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.10000000149011612
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "terrain"
+        },
+        {
+            "type": "CAMERA",
+            "name": "カメラ",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -25.0,
+                    14.0
+                ],
+                "rotation": [
+                    58.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Camera"
+        },
+        {
+            "type": "MESH",
+            "name": "球_球.001",
+            "transform": {
+                "translation": [
+                    -5.0,
+                    0.0,
+                    0.6000000238418579
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Enemy_1"
+        },
+        {
+            "type": "MESH",
+            "name": "球_球.002",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -5.0,
+                    0.6000000238418579
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Enemy_0"
+        },
+        {
+            "type": "MESH",
+            "name": "球_球.003",
+            "transform": {
+                "translation": [
+                    0.0,
+                    5.0,
+                    0.6000000238418579
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    -48.83124923706055
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Enemy_2"
+        }
+    ]
+}
